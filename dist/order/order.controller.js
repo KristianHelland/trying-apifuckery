@@ -16,16 +16,52 @@ exports.OrderController = void 0;
 const common_1 = require("@nestjs/common");
 let OrderController = class OrderController {
     constructor() {
-        this.orders = ["kakao", "cappuccino", "americano", "Tobias forlate området plz"];
+        this.orders = [
+            {
+                orderID: 1,
+                userName: "Kristian Helland",
+                itemName: "americano",
+                completed: true,
+                retrived: false,
+            },
+            {
+                orderID: 2,
+                userName: "Soni-chan",
+                itemName: "Iced caramel latte",
+                completed: true,
+                retrived: false,
+            },
+            {
+                orderID: 3,
+                userName: "Stuart little",
+                itemName: "Kakao u/krem",
+                completed: false,
+                retrived: false,
+            },
+            {
+                orderID: 4,
+                userName: "CAT",
+                itemName: "et glass med melk ;P",
+                completed: false,
+                retrived: false,
+            }
+        ];
     }
     getAllOrders() {
         return this.orders;
+    }
+    getUncompletedOrders() {
+        return this.orders.filter(o => o.completed === false);
+    }
+    getOrder(orderID) {
+        return this.orders.find(o => o.orderID === orderID);
     }
     addOrder(body) {
         this.orders.push(body.name);
         return "shi works";
     }
-    delOrder() {
+    delOrder(index) {
+        this.orders.splice(index, 1);
         return "Your order has been deleted please pay the cancelation fee";
     }
 };
@@ -37,6 +73,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "getAllOrders", null);
 __decorate([
+    (0, common_1.Get)("uncompleted"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], OrderController.prototype, "getUncompletedOrders", null);
+__decorate([
+    (0, common_1.Get)(":orderID"),
+    __param(0, (0, common_1.Param)("orderID")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], OrderController.prototype, "getOrder", null);
+__decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -45,8 +94,9 @@ __decorate([
 ], OrderController.prototype, "addOrder", null);
 __decorate([
     (0, common_1.Delete)(),
+    __param(0, (0, common_1.Query)("index")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "delOrder", null);
 exports.OrderController = OrderController = __decorate([
